@@ -1,6 +1,7 @@
 // I'm running this on the console to run it:
 // npm install -g tsx
 // tsx [fileName].ts
+// For lab machines: npx tsx [fileName].ts
 import { Category, Product } from "./Product";
 import * as functions from "./functions";
 

@@ -27,3 +27,19 @@ let mappedAnnounce:string[] = animals.map((str) => str + " is a great animal");
 
 console.log(mappedDouble);
 console.log(mappedAnnounce);
+
+// 9/4/class
+interface Test {
+  name: string;
+  grade: number;
+  active?: boolean; // optional property = Undefined
+}
+
+const student: Test = {
+  name: "bob",
+  grade: 90,
+}
+
+console.log(student.name);
+console.log(student.grade);
+console.log(student.active);

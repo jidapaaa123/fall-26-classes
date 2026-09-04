@@ -7,7 +7,6 @@ def bubble_sort(arr):
     k=0
     for i in range(len(arr) - k):
         prev = arr[0]
-        print(f"{k+1}TH ITERATION")
         for j in range(len(arr)):
             curr = arr[j]
             if (prev > curr):
@@ -22,6 +21,21 @@ def bubble_sort(arr):
 def selection_sort(arr):
     if len(arr) == 0:
         return arr
+    
+    for i in range(len(arr)):
+        print(f"{i+1} ITERATION")
+        curr_smallest_index = i
+        curr_smallest = arr[curr_smallest_index]
+        for j in range(i, len(arr)):
+            cand = arr[j]
+            if (cand < curr_smallest):
+                curr_smallest = cand
+                curr_smallest_index = j
+        tmp = arr[i]
+        arr[i] = curr_smallest
+        arr[curr_smallest_index] = tmp
+        print(arr)
+    return arr                
 
 ## pytests
 def test_add():

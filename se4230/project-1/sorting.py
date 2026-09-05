@@ -1,3 +1,9 @@
+# Name: Jidapa Angsutti
+# Course: SE 4230
+# Date: 9/2/2026
+# Run [python -m pytest sorting.py] to run the tests
+# Run [python sorting.py] to run the benchmark. Output updates the sort_times.png & sort_times.csv
+
 import pytest
 import random
 import time
@@ -41,8 +47,36 @@ def selection_sort(arr):
         arr[curr_smallest_index] = tmp
     return arr                
 
+# i = index to check for swaps
+def root_insertion_sort(arr, i):
+    if i == 0:
+        return arr
+    if arr[i] < arr[i-1]:
+        swap_elements(arr, i, i-1)
+        root_insertion_sort(arr, i-1)
+    return arr
+
 def insertion_sort(arr):
-    return arr   
+    if len(arr) == 0 or len(arr) == 1:
+        return arr
+    
+    for i in range(1, len(arr)):
+        curr = arr[i]
+        prev = arr[i-1]
+        print(f"Curr: {curr}, i: {i}")
+        print(arr)
+        if curr < prev:
+            print(f"It need swap")
+            root_insertion_sort(arr, i)
+            print(arr)
+    return arr
+
+
+
+def swap_elements(arr, i, j):
+    tmp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = tmp
 
 ## pytests
 my_sorts = [bubble_sort, selection_sort, insertion_sort]
@@ -86,7 +120,7 @@ def unchanged(a):
 # control_group = [built_in_sorted, in_place_sort, do_nothing, make_two_copies, quadratic_garbage]
 control_group = [built_in_sorted, quadratic_garbage]
 
-# benchmarking
+# Part 2: Empirical benchmark
 def time_sort(original, prep, sort):
    a = prep(list(original))
    start = time.perf_counter()

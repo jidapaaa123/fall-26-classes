@@ -45,8 +45,8 @@ def insertion_sort(arr):
     return arr   
 
 ## pytests
-sorts = [bubble_sort, selection_sort, insertion_sort]
-@pytest.mark.parametrize("alg", sorts, ids=lambda f: f.__name__)
+my_sorts = [bubble_sort, selection_sort, insertion_sort]
+@pytest.mark.parametrize("alg", my_sorts, ids=lambda f: f.__name__)
 def test_mega_sort(alg):
     arr = [23, 84, 23, 42, 91, 4, 55, 76, 12, 67]
     sorted_arr = [4, 12, 23, 23, 42, 55, 67, 76, 84, 91]
@@ -100,7 +100,7 @@ def aggregated_time_sort(lists, length, prep, sort, repetitions):
             for a in lists
             for _ in range(repetitions)])
 
-sorts.extend(control_group)
+sorts = [*my_sorts, *control_group]
 if __name__ == '__main__':
    random.seed(4567)
    preps = [sorted, reverse_sorted, unchanged]

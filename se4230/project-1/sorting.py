@@ -67,26 +67,64 @@ def insertion_sort(arr):
             root_insertion_sort(arr, i)
     return arr
 
-
-
 def swap_elements(arr, i, j):
     tmp = arr[i]
     arr[i] = arr[j]
     arr[j] = tmp
-
+    
 ## pytests
 my_sorts = [bubble_sort, selection_sort, insertion_sort]
 @pytest.mark.parametrize("alg", my_sorts, ids=lambda f: f.__name__)
 def test_mega_sort(alg):
-    arr = [23, 84, 23, 42, 91, 4, 55, 76, 12, 67]
-    sorted_arr = [4, 12, 23, 23, 42, 55, 67, 76, 84, 91]
-    arr1 = [3, 4, 1, 5, 2]
-    sorted_arr1 = [1, 2, 3, 4, 5]
+    empty = []
+    sorted_empty = []
 
-    copy_arr = arr.copy()
-    copy_arr1 = arr1.copy()
-    assert alg(copy_arr) == sorted_arr
-    assert alg(copy_arr1) == sorted_arr1
+    single = [42]
+    sorted_single = [42]
+
+    two_elements_sorted = [1, 2]
+    sorted_two_elements_sorted = [1, 2]
+
+    two_elements_unsorted = [2, 1]
+    sorted_two_elements_unsorted = [1, 2]
+
+    already_sorted = [1, 2, 3, 4, 5]
+    sorted_already_sorted = [1, 2, 3, 4, 5]
+
+    reverse_sorted = [5, 4, 3, 2, 1]
+    sorted_reverse_sorted = [1, 2, 3, 4, 5]
+
+    all_duplicates = [7, 7, 7, 7, 7]
+    sorted_all_duplicates = [7, 7, 7, 7, 7]
+
+    some_duplicates = [3, 1, 2, 3, 1]
+    sorted_some_duplicates = [1, 1, 2, 3, 3]
+
+    negatives = [-3, 5, -1, 0, -8]
+    sorted_negatives = [-8, -3, -1, 0, 5]
+
+    all_negative = [-5, -1, -9, -3]
+    sorted_all_negative = [-9, -5, -3, -1]
+    
+    inputs = [empty, single, 
+              two_elements_sorted,
+              two_elements_unsorted, 
+              already_sorted, reverse_sorted, 
+              all_duplicates, some_duplicates, 
+              negatives, all_negative]
+    outputs = [sorted_empty, sorted_single, 
+               sorted_two_elements_sorted, 
+               sorted_two_elements_unsorted, 
+               sorted_already_sorted, 
+               sorted_reverse_sorted, 
+               sorted_all_duplicates, 
+               sorted_some_duplicates, 
+               sorted_negatives, 
+               sorted_all_negative]
+    
+    for i in range(len(inputs)):
+        copy_input = inputs[i].copy()
+        assert alg(copy_input) == outputs[i]
 
 # control functions
 def built_in_sorted(a):

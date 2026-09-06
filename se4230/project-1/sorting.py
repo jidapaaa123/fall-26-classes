@@ -71,9 +71,57 @@ def swap_elements(arr, i, j):
     tmp = arr[i]
     arr[i] = arr[j]
     arr[j] = tmp
+
+def root_merge_sort(arr1, arr2):
+    print("NEW LEVEL")
+    if len(arr1) > 1:
+        arr1 = root_merge_sort(*split_in_half(arr1))
+    if len(arr2) > 1:
+        arr2 = root_merge_sort(*split_in_half(arr2))
+
+    copy_arr1 = arr1.copy()
+    copy_arr2 = arr2.copy()
+    
+    tmp = []
+    while len(copy_arr1) + len(copy_arr2) > 0:
+        print(f"{copy_arr1} vs. {copy_arr2}")
+        arr_to_pop = array_with_smaller_min(copy_arr1, copy_arr2)
+        popped = arr_to_pop.pop(0)
+        tmp.append(popped)
+        print(tmp)
+        
+    print(f"{arr1} + {arr2} => {tmp}")
+    return tmp
+    
+    
+def merge_sort(arr):
+    if len(arr) == 0 or len(arr) == 1:
+        return arr
+
+    (half1, half2) = split_in_half(arr)
+    sorted = root_merge_sort(half1, half2)
+    
+    return sorted
+
+def split_in_half(arr):
+    midpoint = len(arr) // 2
+    return (arr[:midpoint], arr[midpoint:])
+    
+def array_with_smaller_min(arr1, arr2):
+    if len(arr1) == 0 and len(arr2) == 0:
+        raise ValueError("supposedly this should not even be called?")
+    if len(arr1) == 0:
+        return arr2
+    if len(arr2) == 0:
+        return arr1  
+    
+    min1 = arr1[0]
+    min2 = arr2[0]
+    arr1_picked = min1 <= min2
+    return (arr1 if arr1_picked else arr2)
     
 ## pytests
-my_sorts = [bubble_sort, selection_sort, insertion_sort]
+my_sorts = [merge_sort]
 @pytest.mark.parametrize("alg", my_sorts, ids=lambda f: f.__name__)
 def test_mega_sort(alg):
     empty = []

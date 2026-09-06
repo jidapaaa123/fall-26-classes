@@ -78,7 +78,6 @@ def swap_elements(arr, i, j):
     arr[j] = tmp
 
 def root_merge_sort(arr1, arr2):
-    print("NEW LEVEL")
     if len(arr1) > 1:
         arr1 = root_merge_sort(*split_in_half(arr1))
     if len(arr2) > 1:
@@ -88,14 +87,17 @@ def root_merge_sort(arr1, arr2):
     copy_arr2 = arr2.copy()
     
     tmp = []
-    while len(copy_arr1) + len(copy_arr2) > 0:
-        print(f"{copy_arr1} vs. {copy_arr2}")
-        arr_to_pop = array_with_smaller_min(copy_arr1, copy_arr2)
-        popped = arr_to_pop.pop(0)
-        tmp.append(popped)
-        print(tmp)
+    i = j = 0
+    while i < len(arr1) and j < len(arr2):
+        if arr1[i] <= arr2[j]:
+            tmp.append(arr1[i])
+            i += 1
+        else:
+            tmp.append(arr2[j])
+            j += 1
+    tmp.extend(arr1[i:])
+    tmp.extend(arr2[j:])
         
-    print(f"{arr1} + {arr2} => {tmp}")
     return tmp
     
     
@@ -177,8 +179,6 @@ def counting_sort(arr):
     # last '0' is placed before index 2.
 
     output = [0] * len(arr)
-    print(output)
-    print(prefix_sums)
     for num in arr:
         p_sum = prefix_sums[num]
         output[p_sum-1] = num
@@ -187,7 +187,7 @@ def counting_sort(arr):
     return output
 
 ## pytests
-my_sorts = [counting_sort]
+my_sorts = [bubble_sort, selection_sort, insertion_sort, merge_sort, quicksort, counting_sort]
 @pytest.mark.parametrize("alg", my_sorts, ids=lambda f: f.__name__)
 def test_mega_sort(alg):
     empty = []
@@ -286,7 +286,7 @@ if __name__ == '__main__':
    random_lists = [[random.randint(0, max_value) for _ in range(max_length)] for _ in range(3)]
    lengths = [length_base**k for k in range(num_lengths)]
    repetitions = 3
-   timeout = 0.01
+   timeout = 1
    results = []
    
    for prep in preps:

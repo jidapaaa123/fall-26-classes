@@ -265,7 +265,10 @@ control_group = [built_in_sorted, quadratic_garbage]
 def time_sort(original, prep, sort):
    a = prep(list(original))
    start = time.perf_counter()
-   sort(a)
+   try:
+       sort(a)
+   except RecursionError:
+       pass
    end = time.perf_counter()
    return end - start
 
@@ -297,6 +300,10 @@ if __name__ == '__main__':
                median_time = aggregated_time_sort(lists=random_lists, length=length,
                                              prep=prep, sort=sort, repetitions=repetitions)
                print('.',end='')
+               if median_time == float('inf'):
+                   # overflow. Stop and don't even count it
+                   break
+               
                results.append(dict(
                   sort=sort.__name__,
                   prep=prep.__name__,

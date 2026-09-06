@@ -4,12 +4,17 @@
 # Run [python -m pytest sorting.py] to run the tests
 # Run [python sorting.py] to run the benchmark. Output updates the sort_times.png & sort_times.csv
 
+# NOTE: I wrote the pytest to assume the algorithm RETURNS the sorted list
+# Even if the algorithm could sort it in-place, I just kept it that way anyway
+# In-place implementations have "return arr" where arr IS the input array
+
 import pytest
 import random
 import time
 import statistics
 import pandas as pd
 import seaborn as sns
+import random
 
 # Part 1: Theory and Implementation
 ## algorithms 
@@ -119,9 +124,38 @@ def array_with_smaller_min(arr1, arr2):
     min2 = arr2[0]
     arr1_picked = min1 <= min2
     return (arr1 if arr1_picked else arr2)
+
+
+# low/high = min/max of unsorted subarray
+def quicksort(arr, low=0, high=None):
+    if high is None:
+        high = len(arr) - 1
+    if low >= high:
+        return arr
+
+    pivot_index = random.randint(low, high)
+    # move pivot away from the unsorted subarray
+    arr[pivot_index], arr[high] = arr[high], arr[pivot_index]
+    pivot = arr[high]
+
+    boundary = low
+    for i in range(low, high):
+        if arr[i] < pivot:
+            arr[i], arr[boundary] = arr[boundary], arr[i]
+            boundary += 1
+    # GUARANTEE: left of the boundary = < pivot
+    # GUARANTEE: right of boundary = >= pivot
+    # there4: pivot should be at the boundary
+    arr[boundary], arr[high] = arr[high], arr[boundary]
+
+    # process the less-than and greater-than halves
+    quicksort(arr, low, boundary - 1)
+    quicksort(arr, boundary + 1, high)
     
+    return arr
+
 ## pytests
-my_sorts = [merge_sort]
+my_sorts = [quicksort]
 @pytest.mark.parametrize("alg", my_sorts, ids=lambda f: f.__name__)
 def test_mega_sort(alg):
     empty = []

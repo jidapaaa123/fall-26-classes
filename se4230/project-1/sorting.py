@@ -154,8 +154,40 @@ def quicksort(arr, low=0, high=None):
     
     return arr
 
+def counting_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    arr_max = max(arr)
+    # make room for 0 (assignment says integers are between 0-1023)
+    # ex: [1, 2, 4] -> [0, 0, 0, 0, 0]
+    occurrences = [0] * (arr_max + 1)      
+    for num in arr:
+        # num = 1 -> goes in index 1
+        occurrences[num] += 1
+    
+    prefix_sums = [0] * (arr_max + 1)      
+    prefix_sums[0] = occurrences[0]
+    for i, val in enumerate(occurrences[1:]):
+        prefix_sums[i+1] = val + prefix_sums[i]
+    # prefix sum val at index i MEANS
+    # the last occurrence of value 'i' should be placed
+    # BEFORE index val
+    # think: prefix sum of 0 is 2 and of 1 is 3. So [0, 0, 1]
+    # last '0' is placed before index 2.
+
+    output = [0] * len(arr)
+    print(output)
+    print(prefix_sums)
+    for num in arr:
+        p_sum = prefix_sums[num]
+        output[p_sum-1] = num
+        prefix_sums[num] -= 1
+    
+    return output
+
 ## pytests
-my_sorts = [quicksort]
+my_sorts = [counting_sort]
 @pytest.mark.parametrize("alg", my_sorts, ids=lambda f: f.__name__)
 def test_mega_sort(alg):
     empty = []
@@ -181,19 +213,13 @@ def test_mega_sort(alg):
 
     some_duplicates = [3, 1, 2, 3, 1]
     sorted_some_duplicates = [1, 1, 2, 3, 3]
-
-    negatives = [-3, 5, -1, 0, -8]
-    sorted_negatives = [-8, -3, -1, 0, 5]
-
-    all_negative = [-5, -1, -9, -3]
-    sorted_all_negative = [-9, -5, -3, -1]
     
     inputs = [empty, single, 
               two_elements_sorted,
               two_elements_unsorted, 
               already_sorted, reverse_sorted, 
               all_duplicates, some_duplicates, 
-              negatives, all_negative]
+              ]
     outputs = [sorted_empty, sorted_single, 
                sorted_two_elements_sorted, 
                sorted_two_elements_unsorted, 
@@ -201,8 +227,7 @@ def test_mega_sort(alg):
                sorted_reverse_sorted, 
                sorted_all_duplicates, 
                sorted_some_duplicates, 
-               sorted_negatives, 
-               sorted_all_negative]
+               ]
     
     for i in range(len(inputs)):
         copy_input = inputs[i].copy()

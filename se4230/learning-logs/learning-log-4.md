@@ -24,3 +24,6 @@
 
 - Question/Problem: Understand difference between Big O vs. Omega vs. Theta in practice  
 - When Identified: 9/4 11am  
+
+- Question/Problem: How is it n log n to sort an array of size n into the binary min heap ?  
+- When Identified: 9/9 11am  

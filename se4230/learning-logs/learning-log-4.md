@@ -25,5 +25,18 @@
 - Question/Problem: Understand difference between Big O vs. Omega vs. Theta in practice  
 - When Identified: 9/4 11am  
 
-- Question/Problem: How is it n to sort an array of size n into the binary min heap ? (I believe it easier than n log n)  
+
+- Question/Problem: What is a priority queue (light review)  
+- When Identified: 9/8 6pm  
+
+- Question/Problem: What is a binary min heap  
+- When Identified: 9/8 6pm  
+
+- Question/Problem: What is Prim's algorithm? What does it do ?  
+- When Identified: 9/8 6pm  
+
+- Question/Problem: How do I visually represent my graph (in Python)?  
+- When Identified: 9/8 6pm  
+
+- Question/Problem: How is it n to sort an array of size n into the binary min heap ?    
 - When Identified: 9/9 11am  

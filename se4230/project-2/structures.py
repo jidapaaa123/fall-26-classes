@@ -8,12 +8,12 @@
 #   instead of just 'data'?
 
 class Graph:
-    nodes = []
-    edges = []
-    nodes_data = []
-    edges_data = []
+    nodes = {}
+    edges = {}
+    nodes_data = {}
+    edges_data = {}
     
-    def __init__(self, nodes=[], edges=[], nodes_data=[], edges_data=[]):
+    def __init__(self, nodes={}, edges={}, nodes_data={}, edges_data={}):
         self.nodes = nodes
         self.edges = edges
         self.nodes_data = nodes_data
@@ -23,11 +23,15 @@ class Graph:
     def add_node(self, node, data=None):
         if node in self.nodes:
             return
-        self.nodes.append(node)
+        self.nodes[node] = {}
         self.nodes_data[node] = data
+
+    def contains_node(self, node):
+        return node in self.nodes
     
     def get_nodes(self):
         return self.nodes.copy()
+    
         
     
     

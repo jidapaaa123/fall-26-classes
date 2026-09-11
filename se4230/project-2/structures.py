@@ -8,16 +8,16 @@
 #   instead of just 'data'?
 
 class Graph:
-    nodes = {}
-    edges = {}
-    nodes_data = {}
-    edges_data = {}
+    nodes: dict
+    edges: dict
+    nodes_data: dict
+    edges_data: dict
     
-    def __init__(self, nodes={}, edges={}, nodes_data={}, edges_data={}):
-        self.nodes = nodes
-        self.edges = edges
-        self.nodes_data = nodes_data
-        self.edges_data = edges_data
+    def __init__(self, nodes=None, edges=None, nodes_data={}, edges_data={}):
+        self.nodes = nodes if nodes is not None else {} 
+        self.edges = edges if edges is not None else {}
+        self.nodes_data = nodes_data if nodes_data is not None else {}
+        self.edges_data = edges_data if edges_data is not None else {}
         
     
     def add_node(self, node, data=None):
@@ -25,7 +25,20 @@ class Graph:
             return
         self.nodes[node] = {}
         self.nodes_data[node] = data
-
+        
+        print(f"From add_node")
+        print(f"Nodes: {self.nodes}")
+        print(f"Data: {self.nodes_data}")
+    
+    def get_node_data(self, node):
+        if node not in self.nodes:
+            raise ValueError(f"Node {node} not in graph")
+        
+        print(f"From get_node_data")
+        print(f"Nodes: {self.nodes}")
+        print(f"Data: {self.nodes_data}")
+        return self.nodes_data[node]
+        
     def contains_node(self, node):
         return node in self.nodes
     

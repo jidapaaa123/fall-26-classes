@@ -28,3 +28,11 @@
 
 - Question/Problem: "... the minimum spanning tree and the shortest path tree are not the same" How come ?    
 - When Identified: 9/9 6pm  
+
+- Question/Problem: Why shouldn't you use mutable objects as default values in Python arguments?  
+- When Identified: 9/11 12am    
+
+- Question/Problem: Is it recommended use mutable objects as default INITAL VALUES in Python class FIELDS?  
+- When Identified: 9/11 12am    
+- Importance:
+- Insight/Answer: NO.

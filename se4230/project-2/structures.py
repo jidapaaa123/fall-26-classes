@@ -2,11 +2,37 @@
 # to test to show that our ADT implementations are
 # compatible with the Prim's alg (we're not modifying Prim's alg?)
 
+# QUESTION: Why does Graph need a data in the constructor?
+#   if we're storing both nodes' and edges' data...
+#   then do we have 'nodes_data' and 'edges_data' as fields
+#   instead of just 'data'?
+
 class Graph:
-    name = "idk name"
+    nodes = []
+    edges = []
+    nodes_data = []
+    edges_data = []
     
-    def __init__(self, arg1, arg2):
-        self.name = arg1 + arg2
+    def __init__(self, nodes=[], edges=[], nodes_data=[], edges_data=[]):
+        self.nodes = nodes
+        self.edges = edges
+        self.nodes_data = nodes_data
+        self.edges_data = edges_data
+        
+    
+    def add_node(self, node, data=None):
+        if node in self.nodes:
+            return
+        self.nodes.append(node)
+        self.nodes_data[node] = data
+    
+    def get_nodes(self):
+        return self.nodes.copy()
+        
+    
+    
+        
+        
 
     
     

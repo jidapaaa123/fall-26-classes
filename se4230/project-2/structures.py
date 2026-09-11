@@ -9,15 +9,13 @@
 
 class Graph:
     nodes: dict
-    edges: dict
     nodes_data: dict
-    edges_data: dict
+    edges: dict
     
-    def __init__(self, nodes=None, edges=None, nodes_data={}, edges_data={}):
+    def __init__(self, nodes=None, nodes_data={}, edges=None,):
         self.nodes = nodes if nodes is not None else {} 
-        self.edges = edges if edges is not None else {}
         self.nodes_data = nodes_data if nodes_data is not None else {}
-        self.edges_data = edges_data if edges_data is not None else {}
+        self.edges = edges if edges is not None else {}
         
     
     def add_node(self, node, data=None):
@@ -26,9 +24,21 @@ class Graph:
         self.nodes[node] = {}
         self.nodes_data[node] = data
         
-        print(f"From add_node")
-        print(f"Nodes: {self.nodes}")
-        print(f"Data: {self.nodes_data}")
+    def add_edge(self, parent, child, data=None):
+        """Assumes parent and child are already 
+        present as nodes (via add_node) -- 
+        this method does not create nodes 
+        automatically."""
+        
+        print(self.nodes)
+        print(self.edges)
+        
+        # skip if reverse direction exists
+        if child in self.edges and parent in self.edges[child]:
+            return
+        
+        self.edges[parent] = {}
+        self.edges[parent][child] = {data}
     
     def get_node_data(self, node):
         if node not in self.nodes:
@@ -41,6 +51,9 @@ class Graph:
         
     def contains_node(self, node):
         return node in self.nodes
+    
+    def contains_edge(self, parent, child):
+        return child in self.edges[parent]
     
     def get_nodes(self):
         return self.nodes.copy()

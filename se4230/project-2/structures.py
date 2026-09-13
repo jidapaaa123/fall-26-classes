@@ -23,6 +23,11 @@ class Graph:
             # first kid!
             self.children[parent] = {}
         self.children[parent][child] = data
+        
+        if child not in self.parents.keys():
+            # first papa!
+            self.parents[child] = {}
+        self.parents[child][child] = data
     
     def add_undirected_edge(self, node1, node2, data=None):
         self.add_edge(node1, node2, data)
@@ -40,7 +45,7 @@ class Graph:
         return self.children.get(parent, {}).keys()
     
     def get_parents(self, node):
-        pass
+        return self.parents.get(node, {}).keys()
 
     def contains_node(self, node):
         return node in self.nodes

@@ -10,14 +10,14 @@
 class Graph:
     nodes: dict
     nodes_data: dict
-    nodes_children: dict
     edges: dict
+    edges_data: dict
     
-    def __init__(self, nodes=None, nodes_data={}, nodes_children={}, edges=None):
+    def __init__(self, nodes=None, nodes_data={}, edges_data={}, edges=None):
         self.nodes = nodes if nodes is not None else {} 
         self.nodes_data = nodes_data if nodes_data is not None else {}
-        self.nodes_children = nodes_children if nodes_children is not None else {}
         self.edges = edges if edges is not None else {}
+        self.edges_data = edges_data if edges_data is not None else {}
         
     
     def add_node(self, node, data=None):
@@ -32,13 +32,14 @@ class Graph:
         this method does not create nodes 
         automatically."""
         
-        self.edges[parent] = {}
-        self.edges[parent][child] = data
-        
-        if parent not in self.nodes_children.keys():
-            self.nodes_children[parent] = [child]
+        if parent not in self.edges.keys():
+            self.edges[parent] = [child]
         else:            
-            self.nodes_children[parent].append(child)
+            self.edges[parent].append(child)
+        
+        if parent not in self.edges_data.keys():
+            self.edges_data[parent] = {}
+        self.edges_data[parent][child] = data
     
     def add_undirected_edge(self, node1, node2, data=None):
         self.add_edge(node1, node2, data)
@@ -50,10 +51,10 @@ class Graph:
         return self.nodes_data[node]
     
     def get_edge_data(self, parent, child):
-        return self.edges[parent][child]
+        return self.edges_data[parent][child]
     
     def get_children(self, parent):
-        return self.nodes_children[parent]
+        return self.edges_data[parent]
         
     def contains_node(self, node):
         return node in self.nodes
@@ -66,6 +67,14 @@ class Graph:
     def get_nodes(self):
         return self.nodes.copy()
     
+    def get_edges(self):
+        edges = []
+        print(self.edges)
+        
+        for key, val in self.edges.items():
+            for v in val:
+                edges.append((key, v))
+        return edges    
         
     
     

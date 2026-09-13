@@ -62,14 +62,6 @@ class Graph:
         for key, val in self.children.items():
             for v in val:
                 yield (key, v)
-        
-    
-    
-        
-        
-
-    
-    
     
 def test_new_graph_has_no_nodes():
     graph = Graph()

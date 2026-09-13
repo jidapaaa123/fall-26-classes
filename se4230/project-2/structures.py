@@ -27,7 +27,7 @@ class Graph:
         if child not in self.parents.keys():
             # first papa!
             self.parents[child] = {}
-        self.parents[child][child] = data
+        self.parents[child][parent] = data
     
     def add_undirected_edge(self, node1, node2, data=None):
         self.add_edge(node1, node2, data)
@@ -151,3 +151,11 @@ def test_contains_edge_false_for_absent_edge():
     graph.add_node("a")
     graph.add_node("b")
     assert not graph.contains_edge("a", "b")
+    
+# why was this not here?
+def test_get_parents():
+    graph = Graph()
+    graph.add_node("a")
+    graph.add_node("b")
+    graph.add_edge("a", "b")
+    assert set(graph.get_parents("b")) == {"a"}

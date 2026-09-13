@@ -35,13 +35,15 @@ class Graph:
             return
         
         self.edges[parent] = {}
-        self.edges[parent][child] = {data}
+        self.edges[parent][child] = data
     
     def get_node_data(self, node):
         if node not in self.nodes:
             raise ValueError(f"Node {node} not in graph")
-        
         return self.nodes_data[node]
+    
+    def get_edge_data(self, parent, child):
+        return self.edges[parent][child]
         
     def contains_node(self, node):
         return node in self.nodes

@@ -30,12 +30,12 @@ class Graph:
         this method does not create nodes 
         automatically."""
         
-        # skip if reverse direction exists
-        if child in self.edges and parent in self.edges[child]:
-            return
-        
         self.edges[parent] = {}
         self.edges[parent][child] = data
+    
+    def add_undirected_edge(self, node1, node2, data=None):
+        self.add_edge(node1, node2, data)
+        self.add_edge(node2, node1, data)
     
     def get_node_data(self, node):
         if node not in self.nodes:

@@ -30,9 +30,6 @@ class Graph:
         this method does not create nodes 
         automatically."""
         
-        print(self.nodes)
-        print(self.edges)
-        
         # skip if reverse direction exists
         if child in self.edges and parent in self.edges[child]:
             return
@@ -44,15 +41,14 @@ class Graph:
         if node not in self.nodes:
             raise ValueError(f"Node {node} not in graph")
         
-        print(f"From get_node_data")
-        print(f"Nodes: {self.nodes}")
-        print(f"Data: {self.nodes_data}")
         return self.nodes_data[node]
         
     def contains_node(self, node):
         return node in self.nodes
     
     def contains_edge(self, parent, child):
+        if parent not in self.edges.keys():
+            return False
         return child in self.edges[parent]
     
     def get_nodes(self):

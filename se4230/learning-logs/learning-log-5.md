@@ -40,4 +40,9 @@
 - Question/Problem: How am I supposed to make get_edges anything but O(n^2)?
 - When Identified: 9/12 12am    
 - Importance:
-- Insight/Answer: Yield.
+- Insight/Answer: Yield.  
+
+- Question/Problem: Analyze Prim's Algorithm implementation  
+- When Identified: 9/12 12am    
+- Importance:
+- How to learn: implement Graph/PQ such that it works on its own but NOT with Prim's Algorithm?  

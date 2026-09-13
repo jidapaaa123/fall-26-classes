@@ -1,3 +1,7 @@
+# Name: Jidapa Angsutti
+# Course: SE4230 Advanced Alg.
+# date: 9/10/2026
+
 class Graph:
     nodes: dict
     children: dict

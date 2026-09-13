@@ -1,30 +1,17 @@
-# QUESTION: so the main part of the project is  
-# to test to show that our ADT implementations are
-# compatible with the Prim's alg (we're not modifying Prim's alg?)
-
-# QUESTION: Why does Graph need a data in the constructor?
-#   if we're storing both nodes' and edges' data...
-#   then do we have 'nodes_data' and 'edges_data' as fields
-#   instead of just 'data'?
-
 class Graph:
     nodes: dict
-    nodes_data: dict
-    edges: dict
-    edges_data: dict
+    children: dict
+    parents: dict
     
-    def __init__(self, nodes=None, nodes_data=None, edges_data=None, edges=None):
+    def __init__(self, nodes=None, children=None, parents=None):
         self.nodes = nodes if nodes is not None else {} 
-        self.nodes_data = nodes_data if nodes_data is not None else {}
-        self.edges = edges if edges is not None else {}
-        self.edges_data = edges_data if edges_data is not None else {}
-        
+        self.children = children if children is not None else {}
+        self.parents = parents if parents is not None else {}
     
     def add_node(self, node, data=None):
         if node in self.nodes:
             return
-        self.nodes[node] = {}
-        self.nodes_data[node] = data
+        self.nodes[node] = data
         
     def add_edge(self, parent, child, data=None):
         """Assumes parent and child are already 
@@ -32,13 +19,10 @@ class Graph:
         this method does not create nodes 
         automatically."""
         
-        if parent not in self.edges.keys():
-            self.edges[parent] = set()
-        self.edges[parent].add(child)
-        
-        if parent not in self.edges_data.keys():
-            self.edges_data[parent] = {}
-        self.edges_data[parent][child] = data
+        if parent not in self.children.keys():
+            # first kid!
+            self.children[parent] = {}
+        self.children[parent][child] = data
     
     def add_undirected_edge(self, node1, node2, data=None):
         self.add_edge(node1, node2, data)
@@ -47,27 +31,30 @@ class Graph:
     def get_node_data(self, node):
         if node not in self.nodes:
             raise ValueError(f"Node {node} not in graph")
-        return self.nodes_data[node]
+        return self.nodes[node]
     
     def get_edge_data(self, parent, child):
-        return self.edges_data[parent][child]
+        return self.children[parent][child]
     
     def get_children(self, parent):
-        return self.edges_data[parent]
-        
+        return self.children.get(parent, {}).keys()
+    
+    def get_parents(self, node):
+        pass
+
     def contains_node(self, node):
         return node in self.nodes
     
     def contains_edge(self, parent, child):
-        if parent not in self.edges.keys():
+        if parent not in self.children.keys():
             return False
-        return child in self.edges[parent]
+        return child in self.children[parent]
     
     def get_nodes(self):
-        return self.nodes.copy()
+        return self.nodes.keys()
     
     def get_edges(self):
-        for key, val in self.edges.items():
+        for key, val in self.children.items():
             for v in val:
                 yield (key, v)
         

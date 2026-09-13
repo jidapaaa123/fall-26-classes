@@ -10,11 +10,13 @@
 class Graph:
     nodes: dict
     nodes_data: dict
+    nodes_children: dict
     edges: dict
     
-    def __init__(self, nodes=None, nodes_data={}, edges=None,):
+    def __init__(self, nodes=None, nodes_data={}, nodes_children={}, edges=None):
         self.nodes = nodes if nodes is not None else {} 
         self.nodes_data = nodes_data if nodes_data is not None else {}
+        self.nodes_children = nodes_children if nodes_children is not None else {}
         self.edges = edges if edges is not None else {}
         
     
@@ -32,6 +34,11 @@ class Graph:
         
         self.edges[parent] = {}
         self.edges[parent][child] = data
+        
+        if parent not in self.nodes_children.keys():
+            self.nodes_children[parent] = [child]
+        else:            
+            self.nodes_children[parent].append(child)
     
     def add_undirected_edge(self, node1, node2, data=None):
         self.add_edge(node1, node2, data)
@@ -44,6 +51,9 @@ class Graph:
     
     def get_edge_data(self, parent, child):
         return self.edges[parent][child]
+    
+    def get_children(self, parent):
+        return self.nodes_children[parent]
         
     def contains_node(self, node):
         return node in self.nodes

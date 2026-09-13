@@ -35,4 +35,9 @@
 - Question/Problem: Is it recommended use mutable objects as default INITAL VALUES in Python class FIELDS?  
 - When Identified: 9/11 12am    
 - Importance:
-- Insight/Answer: NO.
+- Insight/Answer: NO.  
+
+- Question/Problem: How am I supposed to make get_edges anything but O(n^2)?
+- When Identified: 9/12 12am    
+- Importance:
+- Insight/Answer: Yield.

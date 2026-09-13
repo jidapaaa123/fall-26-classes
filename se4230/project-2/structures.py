@@ -13,7 +13,7 @@ class Graph:
     edges: dict
     edges_data: dict
     
-    def __init__(self, nodes=None, nodes_data={}, edges_data={}, edges=None):
+    def __init__(self, nodes=None, nodes_data=None, edges_data=None, edges=None):
         self.nodes = nodes if nodes is not None else {} 
         self.nodes_data = nodes_data if nodes_data is not None else {}
         self.edges = edges if edges is not None else {}
@@ -33,9 +33,8 @@ class Graph:
         automatically."""
         
         if parent not in self.edges.keys():
-            self.edges[parent] = [child]
-        else:            
-            self.edges[parent].append(child)
+            self.edges[parent] = set()
+        self.edges[parent].add(child)
         
         if parent not in self.edges_data.keys():
             self.edges_data[parent] = {}
@@ -68,13 +67,9 @@ class Graph:
         return self.nodes.copy()
     
     def get_edges(self):
-        edges = []
-        print(self.edges)
-        
         for key, val in self.edges.items():
             for v in val:
-                edges.append((key, v))
-        return edges    
+                yield (key, v)
         
     
     

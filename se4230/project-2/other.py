@@ -184,3 +184,21 @@ def test_many_updates_and_removes_maintain_min_heap_order():
         order.append(m)
         pq.remove(m)
     assert order == ["d", "b", "f", "a", "c", "e"]
+
+def test_get_priority_reflects_updated_priority():
+    pq = PriorityQueue()
+    pq.update("a", 5)
+    pq.update("a", 2)  # same key, new priority
+    assert pq.get_priority("a") == 2
+
+def test_get_priority_unchanged_when_only_if_less_ignores_update():
+    pq = PriorityQueue()
+    pq.update("a", 5)
+    pq.update("a", 10, only_if_less=True)  # should be ignored
+    assert pq.get_priority("a") == 5
+
+def test_get_priority_changed_when_only_if_less_applies():
+    pq = PriorityQueue()
+    pq.update("a", 5)
+    pq.update("a", 1, only_if_less=True)  # should apply
+    assert pq.get_priority("a") == 1

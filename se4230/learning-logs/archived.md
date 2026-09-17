@@ -30,9 +30,6 @@
 - Importance:
 - How to learn: implement Graph/PQ such that it works on its own but NOT with Prim's Algorithm?  
 
-- Question/Problem: Some examples in which, in T(n) notation, the non-recursive part is NOT O(1)?    
-- When Identified: 9/14 10am   
-
 - Question/Problem: Practice examples of each case of the Master Theorem     
 - When Identified: 9/14 11am   
 

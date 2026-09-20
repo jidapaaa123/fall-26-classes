@@ -97,11 +97,34 @@ def grade_school_multiply(x: str, y: str):
 
 # Checkpoint (medium): the naive divide-and-conquer split
 def divide_and_conquer_multiply(x, y):
-    if len(x) == 1 and len(y) == 1:
-        (hi, lo) = single_digit_multiply(x, y)
-        return hi + lo
+    # Padding
+    n = max(len(x), len(y))
+    x, y = x.zfill(n), y.zfill(n)
     
-    pass
+    # Base case
+    if n == 1:
+        (hi, lo) = single_digit_multiply(x, y)
+        return remove_leading_zeros(hi + lo)
+    
+    # CEILING, not floor: ex: n = 5 shall yield m = 3
+    m = (n + 1) // 2
+    
+    x_hi, x_lo = x[: n - m], x[n - m:]
+    y_hi, y_lo = y[: n - m], y[n - m:]
+    
+    xHi_yHi = divide_and_conquer_multiply(x_hi, y_hi)
+    xHi_yLo = divide_and_conquer_multiply(x_hi, y_lo)
+    xLo_yHi = divide_and_conquer_multiply(x_lo, y_hi)
+    xLo_yLo = divide_and_conquer_multiply(x_lo, y_lo)
+    
+    unshifted_middle_term = n_digit_add(xHi_yLo, xLo_yHi)
+    
+    # it's fine for * here cuz it's for shifting and shifting is cheap?
+    first_term = left_shift(xHi_yHi, 2*m)
+    middle_term = left_shift(unshifted_middle_term, m)
+    sum = n_digit_add(first_term, middle_term)
+    sum = n_digit_add(sum, xLo_yLo)
+    return remove_leading_zeros(sum)
 
 
 # Provided tests for the given functions -- 

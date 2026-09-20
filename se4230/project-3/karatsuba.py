@@ -97,6 +97,10 @@ def grade_school_multiply(x: str, y: str):
 
 # Checkpoint (medium): the naive divide-and-conquer split
 def divide_and_conquer_multiply(x, y):
+    if len(x) == 1 and len(y) == 1:
+        (hi, lo) = single_digit_multiply(x, y)
+        return hi + lo
+    
     pass
 
 

@@ -308,7 +308,8 @@ ALGORITHMS = [grade_school_multiply, divide_and_conquer_multiply, karatsuba]
 @pytest.mark.parametrize("multiply", ALGORITHMS)
 @pytest.mark.parametrize("x,y", [
     ('0', '0'), ('7', '8'), ('99', '99'), ('12345', '34567'),
-    ('1000', '1000'), ('9', '12345'), ('123456789', '987654321'),
+    ('1000', '1000'), ('9', '12345'), ('123456789', '987654321'),     
+    ('100', '23'), ('34', '512'), ('123', '456')
 ])
 def test_algorithms_agree_with_python(multiply, x, y):
     assert multiply(x, y) == str(int(x) * int(y))

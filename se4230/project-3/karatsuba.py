@@ -130,7 +130,34 @@ def divide_and_conquer_multiply(x, y):
 
 # Main: Karatsuba
 def karatsuba(x, y):
-    pass
+    # Padding
+    n = max(len(x), len(y))
+    x, y = x.zfill(n), y.zfill(n)
+    
+    # Base case
+    if n == 1:
+        (hi, lo) = single_digit_multiply(x, y)
+        return remove_leading_zeros(hi + lo)
+    
+    # CEILING, not floor: ex: n = 5 shall yield m = 3
+    m = (n + 1) // 2
+    
+    x_hi, x_lo = x[: n - m], x[n - m:]
+    y_hi, y_lo = y[: n - m], y[n - m:]
+    
+    xHi_yHi = karatsuba(x_hi, y_hi)
+    xLo_yLo = karatsuba(x_lo, y_lo)
+    p3 = karatsuba(n_digit_add(x_hi, x_lo), n_digit_add(y_hi, y_lo))
+    
+    unshifted_middle_term = n_digit_subtract(p3, xHi_yHi)
+    unshifted_middle_term = n_digit_subtract(unshifted_middle_term, xLo_yLo)  
+    
+    # it's fine for * here cuz it's for shifting and shifting is cheap?
+    first_term = left_shift(xHi_yHi, 2*m)
+    middle_term = left_shift(unshifted_middle_term, m)
+    sum = n_digit_add(first_term, middle_term)
+    sum = n_digit_add(sum, xLo_yLo)
+    return remove_leading_zeros(sum)
 
 # Provided tests for the given functions -- 
 # copy these in as-is (click to expand)

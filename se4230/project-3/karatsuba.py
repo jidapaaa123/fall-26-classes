@@ -98,7 +98,9 @@ def grade_school_multiply(x: str, y: str):
     return remove_leading_zeros(result)
 
 # Checkpoint (medium): the naive divide-and-conquer split
-def divide_and_conquer_multiply(x, y):
+def divide_and_conquer_multiply(x: str, y: str):
+    """Returns the product of number strings x and y by splitting each in half
+    and making FOUR recursive half-size multiplications."""
     # Padding
     n = max(len(x), len(y))
     x, y = x.zfill(n), y.zfill(n)
@@ -129,7 +131,9 @@ def divide_and_conquer_multiply(x, y):
     return remove_leading_zeros(sum)
 
 # Main: Karatsuba
-def karatsuba(x, y):
+def karatsuba(x:str, y:str):
+    """Returns the product of number strings x and y using THREE recursive
+    half-size multiplications."""
     # Padding
     n = max(len(x), len(y))
     x, y = x.zfill(n), y.zfill(n)
@@ -299,35 +303,12 @@ def test_build_number_from_digits(digits, expected):
 def test_grade_school_multiply(x, y, expected):
     assert expected == grade_school_multiply(x, y)
 
-@pytest.mark.parametrize("x,y,expected", [
-    ('0', '0', '0'),
-    ('1', '1', '1'),
-    ('5', '7', '35'),
-    ('9', '9', '81'),
-    ('1000', '1000', '1000000'),
-    ('2', '3', '6'),
-    ('10', '10', '100'),
-    ('12345', '34567', '426729615'),
-    ('100', '23', '2300'),
-    ('34', '512', '17408'),
-    ('123', '456', '56088')
-])    
-def test_divide_and_conquer_multiply(x, y, expected):
-    assert expected == divide_and_conquer_multiply(x, y)
-    
-@pytest.mark.parametrize("x,y,expected", [
-    ('0', '0', '0'),
-    ('1', '1', '1'),
-    ('5', '7', '35'),
-    ('9', '9', '81'),
-    ('1000', '1000', '1000000'),
-    ('2', '3', '6'),
-    ('10', '10', '100'),
-    ('12345', '34567', '426729615'),
-    ('100', '23', '2300'),
-    ('34', '512', '17408'),
-    ('123', '456', '56088')
-])    
-def test_karatsuba(x, y, expected):
-    assert expected == karatsuba(x, y)
-    
+ALGORITHMS = [grade_school_multiply, divide_and_conquer_multiply, karatsuba]
+
+@pytest.mark.parametrize("multiply", ALGORITHMS)
+@pytest.mark.parametrize("x,y", [
+    ('0', '0'), ('7', '8'), ('99', '99'), ('12345', '34567'),
+    ('1000', '1000'), ('9', '12345'), ('123456789', '987654321'),
+])
+def test_algorithms_agree_with_python(multiply, x, y):
+    assert multiply(x, y) == str(int(x) * int(y))

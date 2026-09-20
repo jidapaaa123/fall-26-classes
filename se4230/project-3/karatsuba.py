@@ -1,11 +1,6 @@
-# =============WARM-UP=============
-## Search for "Warm-up (easy): get comfortable with the representation"
-
-# =============CHECKPOINT=============
-## Search for "Checkpoint (medium): the naive divide-and-conquer split"
-
-# =============MAIN=============
-## Search for "Main: Karatsuba"
+# Name: Jidapa Angsutti
+# Course: SE4230 Advanced Algorithms
+# Date: 9/18/2026
 
 # ----Starter Code-----
 

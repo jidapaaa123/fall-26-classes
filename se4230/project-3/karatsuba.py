@@ -224,7 +224,10 @@ def test_build_number_from_digits(digits, expected):
     ('10', '10', '100'),
     ('12345', '34567', '426729615'),
     # Warm-up (easy): get comfortable with the representation
-    
+    # ('-1', '2', '-2'), pls don't run this one
+    ('100', '23', '2300'),
+    ('34', '512', '17408'),
+    ('123', '456', '56088')
 ])
 def test_grade_school_multiply(x, y, expected):
     assert expected == grade_school_multiply(x, y)

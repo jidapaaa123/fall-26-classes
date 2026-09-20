@@ -303,6 +303,39 @@ def test_build_number_from_digits(digits, expected):
 def test_grade_school_multiply(x, y, expected):
     assert expected == grade_school_multiply(x, y)
 
+@pytest.mark.parametrize("x,y,expected", [
+    ('0', '0', '0'),
+    ('1', '1', '1'),
+    ('5', '7', '35'),
+    ('9', '9', '81'),
+    ('1000', '1000', '1000000'),
+    ('2', '3', '6'),
+    ('10', '10', '100'),
+    ('12345', '34567', '426729615'),
+    ('100', '23', '2300'),
+    ('34', '512', '17408'),
+    ('123', '456', '56088')
+])
+def test_divide_and_conquer_multiply(x, y, expected):
+    assert expected == divide_and_conquer_multiply(x, y)
+
+@pytest.mark.parametrize("x,y,expected", [
+    ('0', '0', '0'),
+    ('1', '1', '1'),
+    ('5', '7', '35'),
+    ('9', '9', '81'),
+    ('1000', '1000', '1000000'),
+    ('2', '3', '6'),
+    ('10', '10', '100'),
+    ('12345', '34567', '426729615'),
+    ('100', '23', '2300'),
+    ('34', '512', '17408'),
+    ('123', '456', '56088')
+])
+def test_karatsuba(x, y, expected):
+    assert expected == karatsuba(x, y)
+
+
 ALGORITHMS = [grade_school_multiply, divide_and_conquer_multiply, karatsuba]
 
 @pytest.mark.parametrize("multiply", ALGORITHMS)

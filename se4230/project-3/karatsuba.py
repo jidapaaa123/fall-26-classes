@@ -312,3 +312,38 @@ ALGORITHMS = [grade_school_multiply, divide_and_conquer_multiply, karatsuba]
 ])
 def test_algorithms_agree_with_python(multiply, x, y):
     assert multiply(x, y) == str(int(x) * int(y))
+    
+import random
+import time
+import statistics
+
+def random_digits(n, rng):
+    """Returns a random n-digit number string with no leading zero"""
+    return str(rng.randint(1, 9)) + ''.join(str(rng.randint(0, 9)) for _ in range(n - 1))
+
+def time_multiply(multiply, x, y):
+    start = time.perf_counter()
+    multiply(x, y)
+    return time.perf_counter() - start
+
+def median_time(multiply, n, rng, repetitions=3):
+    return statistics.median(
+        time_multiply(multiply, random_digits(n, rng), random_digits(n, rng))
+        for _ in range(repetitions))
+
+if __name__ == '__main__':
+    rng = random.Random(4567)
+    timeout = 1.0          # stop growing n for an algorithm once it exceeds this
+    lengths = [2 ** k for k in range(2, 12)]   # 4, 8, ..., 2048
+    results = []
+    for multiply in ALGORITHMS:
+        print(f'\n\t{multiply.__name__}', end='')
+        for n in lengths:
+            t = median_time(multiply, n, rng)
+            print('.', end='', flush=True)
+            results.append(dict(algorithm=multiply.__name__, n=n, time=t))
+            if t > timeout:
+                break      # don't try longer inputs for an algorithm already too slow
+    print()
+    import pandas as pd
+    pd.DataFrame(results).to_csv('multiply_times.csv', index=False)

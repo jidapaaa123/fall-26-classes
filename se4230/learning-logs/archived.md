@@ -30,6 +30,5 @@
 - Importance:
 - How to learn: implement Graph/PQ such that it works on its own but NOT with Prim's Algorithm?  
 
-- Question/Problem: Practice examples of each case of the Master Theorem     
-- When Identified: 9/14 11am   
+
 

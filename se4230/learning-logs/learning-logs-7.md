@@ -1,15 +1,44 @@
+- Question/Problem: Practice examples of each case of the Master Theorem     
+- When Identified: 9/19 11am   
+- Importance: 5
+- How to learn: Ask Claude to generate problems to solve of each case without labeling which question falls under which case. Do until I can refer to the Master Theorem instead of solving via recursion tree    
+- Insight/Answer: Given form ```T(n) = a*T(n/b) + f(n^d)```. There are 3 cases, where we compare the a vs. b^d:  
+  1) a < b^d: top-heavy  
+    -> O(n^d)  
+  2) a = b^d: balanced  
+    -> O(n^d * log(n))  
+  3) a > b^d: bottom-heavy  
+    -> O(n^(log_b(a)))  
+  This is the same notes I got from class/quiz. I just needed to spend time doing a few questions with BOTH Master Theorem & Recursion tree approaches so I feel comfortable using just the Master Theorem. I would save aside memorizing the rules for when there's a test in which I can't use notes... AND if time's really tight (because I still prefer the Recursion Tree approach)  
+- Hours Spent Learning: 3/4  
+- Minutes Spent documenting: 10  
+- Confidence: 4  
 
 
 - Question/Problem: How to solve recurrence where subproblem sizes are NOT divided?  
 Ex: 2T(n-1) + O(n)  
 - When identified: 9/21 11am  
-
-
-- Question/Problem: Practice examples of each case of the Master Theorem     
-- When Identified: 9/14 11am   
-- How to learn: Ask Claude to generate problems to solve of each case without labeling which question falls under which case. Do until I can refer to the Master Theorem instead of solving via recursion tree    
-
-
+- Importance: 3. I don't anticipate these to come up often.  
+- How to learn: Attempt to solve it via a Recursion Tree. List assumptions made along the way & have Claude check against it
+- Insight/Answer: So hopefully you don't run into these often because sometimes, summation identities are necessary and I really don't like those. I was able to write the summation, but I didn't separate the internal nodes vs. the leaves (so I just did 2^i*(n-i) for i=[0,n]). That wouldn't work because, at i=n, I would've received a 0 for work done at level n, which is NOT true: the base case (leaves) are NOT 0 work.  
+  **WALKTHROUGH**  
+  1) Total cost = internalNodes_cost + leaves_cost  
+  2) $$\sum_{k=0}^{n-1} 2^k * (n-k)$$ $$ + 2^n * T(0)$$  
+    - by magic of knowing, you can simplify the internal nodes summation via $$ j = n - k $$ 
+    => $$\sum_{j=1}^{n} 2^{n-j} * j $$  
+    => $$2^n\sum_{j=1}^{n} {j/2^j} $$  
+    FACT: $$\sum_{j=1}^{\infty} {j/2^j} = 2$$, so
+    => $$2^n * 2 = 2^{n+1}$$  
+    ... which is basically the same thing as $\theta(2^n)$   
+  3) TLDR: The leaves cost is 2^n * O(1) (we assume the base case does O(1) work here): 2^n. The summation of the internal nodes also equal out to be 2^n... so $\theta(2^n)$, ignoring constants  
+  **Final Thoughts**:  
+  - subproblem size via subtraction: always means LINEAR depth  
+  - branching: 
+    - a = 1 means the cost are linearly added, thus the resulting polynomial is 1 degree higher than the per-level work (*n* depth is a given, n nodes/levels * n^d per-level work each = n^(d+1))  
+    - a > 1: theta(a^(n/b)). Because the number of leaves (due to a's branching) grows exponentially, while the per-level polynomial cost grows polynomially?  
+- Hours spent learning: 2  
+- Minutes spent documenting: 15  
+- Confidence: 3  
 
 - Question/Problem: What is backtracking?     
 - When Identified: 9/20 12pm   
@@ -60,5 +89,7 @@ Ex: 2T(n-1) + O(n)
 - Minutes spent documenting: 15  
 - Confidence: 4  
 
-
-
+- Question/Problem: Practice a few cases for subtraction-based subproblem recurrence.  
+- When Identified: 9/21 10pm  
+- Importance: 2. I don't expect a lot of these to actually show up? I'm just curious  
+- How to learn: Have Claude generate a few exercises and solve it regularly, then compare against the "Guidelines" mentioned in the **Final Thoughts** section of LL7's entry about this.  

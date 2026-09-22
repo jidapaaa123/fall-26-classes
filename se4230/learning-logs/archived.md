@@ -31,4 +31,10 @@
 - How to learn: implement Graph/PQ such that it works on its own but NOT with Prim's Algorithm?  
 
 
+- Question/Problem: Chapter 1 exercises Question 9  
+- When Identified: 9/21 12pm  
+- Importance: 3  
+- How to learn: Try to come up with my own answers. Check them against Claude's until I can articulate it.  
+
+
 

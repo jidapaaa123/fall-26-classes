@@ -107,6 +107,38 @@ def cost_with_penalty(frequencies, penalty):
 
     return opt_cost(0, len(frequencies))
 
+# Part 5
+def cost_and_tree_with_penalty(frequencies, penalty):
+    if not frequencies:
+        return 0, ()
+
+    def opt_cost_and_tree(start, end):
+        if start == end:
+            return 0, ()
+
+        root_cost = sum(frequencies[i] for i in range(start, end))
+
+        best = None
+        for root in range(start, end):
+            left_info = opt_cost_and_tree(start, root) # left subtree info
+            right_info = opt_cost_and_tree(root + 1, end) # right subtree info
+            
+            # each SEARCH => so the frequency
+            left_total = sum(frequencies[i] for i in range(start, root))
+            left_penalty = penalty * left_total
+            
+            candidate = combine_costs_and_trees(
+                (root_cost + left_penalty, root),
+                left_info,
+                right_info                
+            )
+            if best is None or candidate[0] < best[0]:
+                best = candidate
+
+        return best
+
+    return opt_cost_and_tree(0, len(frequencies))
+
 
 # --- Parts 1 and 2: the cost alone ------------------------------------------
 
@@ -159,21 +191,21 @@ def test_optimal_cost_with_left_penalty(frequencies, penalty, expected):
     assert expected == cost_with_penalty(frequencies, penalty)
 
 
-# @pytest.mark.parametrize("frequencies,penalty,expected", [
-#     ([4, 3], 2, (10, (0, (), (1, (), ())))),
-#     ([10, 1, 1, 1, 1], 1, (23, (0, (), (2, (1, (), ()), (3, (), (4, (), ())))))),
-#     ([1, 2, 3, 4, 5], 3, (43, (2, (0, (), (1, (), ())), (3, (), (4, (), ()))))),
-#     ([3, 1, 4, 1, 5, 9, 2], 1, (65, (4, (0, (), (2, (1, (), ()), (3, (), ()))),
-#                                         (5, (), (6, (), ()))))),
-#     ([20, 1, 1, 1, 1, 1, 1], 5, (47, (0, (), (1, (), (2, (), (3, (), (4, (), (5, (), (6, (), ()))))))))),
-# ])
-# def test_optimal_cost_and_tree_with_left_penalty(frequencies, penalty, expected):
-#     assert expected == cost_and_tree_with_penalty(frequencies, penalty)
+@pytest.mark.parametrize("frequencies,penalty,expected", [
+    ([4, 3], 2, (10, (0, (), (1, (), ())))),
+    ([10, 1, 1, 1, 1], 1, (23, (0, (), (2, (1, (), ()), (3, (), (4, (), ())))))),
+    ([1, 2, 3, 4, 5], 3, (43, (2, (0, (), (1, (), ())), (3, (), (4, (), ()))))),
+    ([3, 1, 4, 1, 5, 9, 2], 1, (65, (4, (0, (), (2, (1, (), ()), (3, (), ()))),
+                                        (5, (), (6, (), ()))))),
+    ([20, 1, 1, 1, 1, 1, 1], 5, (47, (0, (), (1, (), (2, (), (3, (), (4, (), (5, (), (6, (), ()))))))))),
+])
+def test_optimal_cost_and_tree_with_left_penalty(frequencies, penalty, expected):
+    assert expected == cost_and_tree_with_penalty(frequencies, penalty)
 
 
-# def test_a_big_enough_penalty_never_goes_left():
-#     # When a left step costs more than any rearrangement can save, the optimal tree
-#     # is the one that only ever descends right.
-#     frequencies = [3, 1, 4, 1, 5]
-#     _, tree = cost_and_tree_with_penalty(frequencies, 1000)
-#     assert (0, (), (1, (), (2, (), (3, (), (4, (), ())))))  == tree
+def test_a_big_enough_penalty_never_goes_left():
+    # When a left step costs more than any rearrangement can save, the optimal tree
+    # is the one that only ever descends right.
+    frequencies = [3, 1, 4, 1, 5]
+    _, tree = cost_and_tree_with_penalty(frequencies, 1000)
+    assert (0, (), (1, (), (2, (), (3, (), (4, (), ())))))  == tree

@@ -1,30 +1,43 @@
 import pytest
 
 # Part 1
-def OptCost(start, end, frequencies):
+def opt_cost(start, end, frequencies):
     if start == end:
         return 0
-    else:
-        sum_freq = sum(frequencies[i] for i in range(start, end))
 
-        best = None
-        for root in range(start, end):
-            cost_left = OptCost(start, root, frequencies)
-            cost_right = OptCost(root + 1, end, frequencies)
-            total = cost_left + cost_right
-            if best is None or total < best:
-                best = total
+    total = sum(frequencies[i] for i in range(start, end))
+    best = None
+    
+    for root in range(start, end):
+        left = opt_cost(start, root, frequencies)
+        right = opt_cost(root + 1, end, frequencies)
+        candidate = left + right
+        if best is None or candidate < best:
+            best = candidate
 
-        return sum_freq + best
+    return total + best
 
 
-@pytest.mark.parametrize(
-    "frequencies, expected_cost",
-    [
-        ([1, 2, 10], 17),          # A B C -> best tree roots at C, cost 17
-        ([5], 5)
-    ],
-)
-def test_opt_cost(frequencies, expected_cost):
-    result = OptCost(0, len(frequencies), frequencies)
-    assert result == expected_cost
+def cost(frequencies):
+    if not frequencies:
+        return 0
+    return opt_cost(0, len(frequencies), frequencies)
+
+# --- Parts 1 and 2: the cost alone ------------------------------------------
+
+@pytest.mark.parametrize("frequencies,expected", [
+    ([5], 5),
+    ([4, 3], 10),
+    ([1, 1, 1], 5),
+    ([10, 1, 1, 1, 1], 22),
+    ([1, 2, 3, 4, 5], 30),
+    ([4, 3, 28, 100, 5], 190),
+    ([7, 2, 9, 1, 3, 8], 58),
+    ([3, 1, 4, 1, 5, 9, 2], 53),
+])
+def test_optimal_cost(frequencies, expected):
+    assert expected == cost(frequencies)
+
+
+def test_empty_library_costs_nothing():
+    assert 0 == cost([])

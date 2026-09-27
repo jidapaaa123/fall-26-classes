@@ -1,27 +1,50 @@
 import pytest
 
-# Part 1
-def opt_cost(start, end, frequencies):
-    if start == end:
-        return 0
+# # Part 1
+# def opt_cost(start, end, frequencies):
+#     if start == end:
+#         return 0
 
-    total = sum(frequencies[i] for i in range(start, end))
-    best = None
+#     total = sum(frequencies[i] for i in range(start, end))
+#     best = None
     
-    for root in range(start, end):
-        left = opt_cost(start, root, frequencies)
-        right = opt_cost(root + 1, end, frequencies)
-        candidate = left + right
-        if best is None or candidate < best:
-            best = candidate
+#     for root in range(start, end):
+#         left = opt_cost(start, root, frequencies)
+#         right = opt_cost(root + 1, end, frequencies)
+#         candidate = left + right
+#         if best is None or candidate < best:
+#             best = candidate
 
-    return total + best
+#     return total + best
 
 
+# def cost(frequencies):
+#     if not frequencies:
+#         return 0
+#     return opt_cost(0, len(frequencies), frequencies)
+
+# Part 2
 def cost(frequencies):
     if not frequencies:
         return 0
-    return opt_cost(0, len(frequencies), frequencies)
+    
+    def opt_cost(start, end):
+        if start == end:
+            return 0
+
+        total = sum(frequencies[i] for i in range(start, end))
+        best = None
+        
+        for root in range(start, end):
+            left = opt_cost(start, root)
+            right = opt_cost(root + 1, end)
+            candidate = left + right
+            if best is None or candidate < best:
+                best = candidate
+
+        return total + best
+
+    return opt_cost(0, len(frequencies))
 
 # --- Parts 1 and 2: the cost alone ------------------------------------------
 

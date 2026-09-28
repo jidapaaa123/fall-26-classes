@@ -45,3 +45,16 @@ def nested_tuples_to_list(cons_things):
 print(all_splits("a")) # ( ('a', () ), ())
 print(all_splits("ab"))
 print(all_splits("demo"))
+
+def count_subset_sum(vs, target, first_available_index=0):
+    """returns the number of unique sets of indices that sum to the target
+    """
+    if target == 0 and first_available_index == len(vs):
+        return 1  
+    if first_available_index >= len(vs):
+        return 0  
+
+    first = vs[first_available_index]
+    with_first = count_subset_sum(vs, target-first, first_available_index + 1)
+    if with_first is not None: return with_first.union([first_available_index])
+    return count_subset_sum(vs, target, first_available_index + 1)

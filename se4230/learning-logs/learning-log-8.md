@@ -14,4 +14,10 @@
 
 - Question/Problem: Understand the recurrence problems in Quiz 2  
 
+- Question/Problem: What is the frozenset() in Python & why are we using it for the Subset Sum problem?  
+
+- Question/Problem: What is the "weight" referring to in the context of the Subset Sum problem?  
+
+
+
 

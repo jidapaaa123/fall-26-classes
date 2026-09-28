@@ -1,18 +1,20 @@
 ## Learning Log  
 
-(- Question/Problem: Practice a few cases for subtraction-based subproblem recurrence.  
-- When Identified: 9/21 10pm  
-- Importance: 2. I don't expect a lot of these to actually show up? I'm just curious  
-- How to learn: Have Claude generate a few exercises and solve it regularly, then compare against the "Guidelines" mentioned in the **Final Thoughts** section of LL7's entry about this.)  
-
-- Question/Problem: How do I implement penalty per search of left children in a Optimal BST problem?  
-
-
 - Question/Problem: What is P vs. NP vs. NP-Hard vs. NP complete?  
+- Insight/Answer:  
+  NOTE: "Quickly" refers to something done in polynomial time, like $n^2, n^3, ... $  
+  P vs. NP problems: can both be verified quickly, but only P is guaranteed to "can be solved quickly"  
+  NP vs. NP-Hard problems: NP-Hard is at least as hard as everything in NP, but we have no answer to if it's verified quickly  
+  **ESSENTIAL QUESTIONS**: Can it be solved quickly? Can it be verified quickly?  
+  P: Yes & Yes  
+  NP: Unknown (yes for P, unknown for else) & Yes  
+  NP-Hard: Believed no (at least as hard as everything in NP) & maybe, maybe not
+  NP-Complete: Believed No & Yes  (NP's verification, NP-Hard's "believed no")  
+  **How is the 'difficulty' measurement done if it's separate from speed?**  
+
 
 - Question/Problem: What is the Circuit Sat Problem?  
 
-- Question/Problem: Understand the recurrence problems in Quiz 2  
 
 - Question/Problem: What is the frozenset() in Python & why are we using it for the Subset Sum problem?  
 

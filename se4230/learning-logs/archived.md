@@ -41,7 +41,5 @@
 - Importance: 2. I don't expect a lot of these to actually show up? I'm just curious  
 - How to learn: Have Claude generate a few exercises and solve it regularly, then compare against the "Guidelines" mentioned in the **Final Thoughts** section of LL7's entry about this.)  
 
-- Question/Problem: How do I implement penalty per search of left children in a Optimal BST problem?  
-
 - Question/Problem: Understand the recurrence problems in Quiz 2  
 

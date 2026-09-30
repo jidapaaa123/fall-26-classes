@@ -38,7 +38,6 @@
 - Minutes spent documenting: 5  
 - Confidence: 4. The definitions and applications make sense. Reduction proofs are another conversation    
   
-
 - Question/Problem: What is the 3Sat Problem and the Graph Coloring Problem?  
 - When Identified: 9/23 6pm  
 - Importance: 5   
@@ -62,6 +61,11 @@
       V = {A, B, C, D}   
       E = {{A, B}, {B, C}, {C, D}, {D, A}}   
     So G = ({A, B, C, D}, {{A, B}, {B, C}, {C, D}, {D, A}}).   
+    _NOTE - REDUCTION_: a reduction must preserve truth values (same exact answers/outputs as the reduced problem).  
+    > Karp reduction makes 1 single call to, say, Problem B's solver. Turing/Cook reduction makes multiple calls to other Problems' solvers.   
+    Ex (Karp reduction): Finding the minimum value in an unsorted list  
+    - let Problem A = min(), Problem B = sort()  
+    - we say A reduces to B because B's solver can be used to solve A: sorting the list, then find the identify first element in order to find the minimum value  
 - Hours spent learning: 1  
 - Minutes spent documenting: 5  
 - Confidence: 3
@@ -69,4 +73,9 @@
 - Question/Problem: How is any SAT problem NP-Hard?  
 - When Identified: 9/27 6pm
 - Importance: 2. I don't think this is pressing. It just seems like this is a ground fact that other proofs keep referring to  
-- How to learn: Textbook 12.5 contains the proof  
+- How to learn: Textbook 12.5 contains the proof   
+
+- Question/Problem: How does 3SAT reduce to Circuit SAT? How does Graph Coloring reduce to 3SAT?  
+- When Identified: 9/27 6pm
+- Importance: 2.   
+- How to learn: Textbook / Google / AI  

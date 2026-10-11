@@ -102,6 +102,61 @@ def optimal_cost_memoized(
 
     return best_subtree_cost(0, n, 0, False)
 
+# PART 4
+def optimal_tree(
+    frequencies,
+    cost_per_rotation,
+    move_cost_per_distance,
+    cost_per_scan,
+):
+    R = cost_per_rotation
+    M = move_cost_per_distance
+    S = cost_per_scan
+    n = len(frequencies)
+
+    sys.setrecursionlimit(max(sys.getrecursionlimit(), 10 * n + 1000))
+    prefix = [0]
+    for f in frequencies:
+        prefix.append(prefix[-1] + f) # prefix[i] = sum of the first i freqs
+
+    @cache
+    def best_subtree_cost(lo, hi, pos, facing_positive):
+        if lo >= hi:
+            return 0
+
+        W = prefix[hi] - prefix[lo]  # the sum(all_freq_in_range) cost to account for root-level
+        best = float("inf")
+        # it's == sum(frequencies[lo:hi]) by way of what the cache represents 
+        
+        # for every candidate root...
+        for r in range(lo, hi):
+            if r == pos:  # only possible at the top-level call (pos = r = 0)
+                d_pos = facing_positive
+                rotate = 0
+                move = 0
+            else:
+                d_pos = r > pos
+                rotate = R if d_pos != facing_positive else 0
+                move = abs(r - pos) * M
+
+            # Requests that find their target at r: 
+            ## turn to face negative if currently positive, 
+            ## then go home (move r units).
+            deliver = (R if d_pos else 0) + r * M
+
+            cost = (
+                W * (rotate + move + S) # EVERY request (in range) pays this subtree's root step once. The root step incurs rotate, move, and scan cost
+                + frequencies[r] * deliver  # deliver cost * expecting_this_many_deliveries
+                + best_subtree_cost(lo, r, r, d_pos) # cost for requests whose bin in left subtree
+                + best_subtree_cost(r + 1, hi, r, d_pos) # " in right subtree
+            )
+            best = min(best, cost)
+
+        return best
+
+    return best_subtree_cost(0, n, 0, False)
+
+
 # PROVIDED TESTS
 # (frequencies, rotation, move, scan, optimal cost, optimal tree)
 # Each case has exactly one optimal tree, so the tree is safe to check.

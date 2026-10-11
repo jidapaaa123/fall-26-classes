@@ -1,3 +1,6 @@
+import sys
+from functools import cache
+
 # PART 2
 def optimal_cost_backtracking(
     frequencies,
@@ -57,13 +60,20 @@ def optimal_cost_memoized(
     S = cost_per_scan
     n = len(frequencies)
 
+    sys.setrecursionlimit(max(sys.getrecursionlimit(), 10 * n + 1000))
+    prefix = [0]
+    for f in frequencies:
+        prefix.append(prefix[-1] + f) # prefix[i] = sum of the first i freqs
+
+    @cache
     def best_subtree_cost(lo, hi, pos, facing_positive):
         if lo >= hi:
             return 0
 
-        W = sum(frequencies[lo:hi])  # the sum(all_freq_in_range) cost to account for root-level
+        W = prefix[hi] - prefix[lo]  # the sum(all_freq_in_range) cost to account for root-level
         best = float("inf")
-
+        # it's == sum(frequencies[lo:hi]) by way of what the cache represents 
+        
         # for every candidate root...
         for r in range(lo, hi):
             if r == pos:  # only possible at the top-level call (pos = r = 0)

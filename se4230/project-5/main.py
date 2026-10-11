@@ -61,18 +61,13 @@ def optimal_cost_memoized(
     n = len(frequencies)
 
     sys.setrecursionlimit(max(sys.getrecursionlimit(), 10 * n + 1000))
-    prefix = [0]
-    for f in frequencies:
-        prefix.append(prefix[-1] + f) # prefix[i] = sum of the first i freqs
-
     @cache
     def best_subtree_cost(lo, hi, pos, facing_positive):
         if lo >= hi:
             return 0
 
-        W = prefix[hi] - prefix[lo]  # the sum(all_freq_in_range) cost to account for root-level
+        W = sum(frequencies[lo:hi])  # the sum(all_freq_in_range) cost to account for root-level
         best = float("inf")
-        # it's == sum(frequencies[lo:hi]) by way of what the cache represents 
         
         # for every candidate root...
         for r in range(lo, hi):
@@ -115,18 +110,14 @@ def optimal_tree(
     n = len(frequencies)
 
     sys.setrecursionlimit(max(sys.getrecursionlimit(), 10 * n + 1000))
-    prefix = [0]
-    for f in frequencies:
-        prefix.append(prefix[-1] + f) # prefix[i] = sum of the first i freqs
-
     @cache
-    def best_subtree_cost(lo, hi, pos, facing_positive):
+    def best_subtree(lo, hi, pos, facing_positive):
         if lo >= hi:
-            return 0
+            return (0, None)
 
-        W = prefix[hi] - prefix[lo]  # the sum(all_freq_in_range) cost to account for root-level
-        best = float("inf")
-        # it's == sum(frequencies[lo:hi]) by way of what the cache represents 
+        W = sum(frequencies[lo:hi])  # the sum(all_freq_in_range) cost to account for root-level
+        best_cost = float("inf")
+        best_root = None
         
         # for every candidate root...
         for r in range(lo, hi):
@@ -147,15 +138,24 @@ def optimal_tree(
             cost = (
                 W * (rotate + move + S) # EVERY request (in range) pays this subtree's root step once. The root step incurs rotate, move, and scan cost
                 + frequencies[r] * deliver  # deliver cost * expecting_this_many_deliveries
-                + best_subtree_cost(lo, r, r, d_pos) # cost for requests whose bin in left subtree
-                + best_subtree_cost(r + 1, hi, r, d_pos) # " in right subtree
+                + best_subtree(lo, r, r, d_pos)[0] # cost for requests whose bin in left subtree
+                + best_subtree(r + 1, hi, r, d_pos)[0] # " in right subtree
             )
-            best = min(best, cost)
+            if cost < best_cost:
+                best_cost = cost
+                best_root = r
 
-        return best
+        return (best_cost, best_root)
+    
+    def build(lo, hi, pos, facing_positive):
+        _, r = best_subtree(lo, hi, pos, facing_positive)  # cached lookup
+        if r is None:
+            return ()
+        d_pos = facing_positive if r == pos else r > pos
+        return (r, build(lo, r, r, d_pos), build(r + 1, hi, r, d_pos))
 
-    return best_subtree_cost(0, n, 0, False)
-
+    cost, _ = best_subtree(0, n, 0, False)
+    return (cost, build(0, n, 0, False))
 
 # PROVIDED TESTS
 # (frequencies, rotation, move, scan, optimal cost, optimal tree)

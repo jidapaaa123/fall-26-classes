@@ -1,3 +1,6 @@
+# Names: Jidapa
+# Date: 10/9/2026
+
 import sys
 from functools import cache
 

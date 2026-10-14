@@ -12,5 +12,7 @@
 - When Identified: 10/10 6pm     
 - Importance: 5  
 - How to learn: Relevant sections on the textbook / Google     
+- Insight / Answer: https://www.youtube.com/watch?v=0uCnBiy3Wuw  
+  Basically, it uses the same idea from the optimal BST problem: "more popular elements should be easier to access == closer to the top / root".
 
 - Question/Problem: Review minimum spanning tree and (greedy) Prim's algorithm. 

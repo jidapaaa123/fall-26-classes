@@ -43,3 +43,7 @@
 
 - Question/Problem: Understand the recurrence problems in Quiz 2  
 
+(- Question/Problem: How does 3SAT reduce to the Nonogram Puzzle?  
+- When Identified: 10/2 12pm    
+- Importance: 5
+- How to learn: Consult Professor Teichert. It seems complicated enough that we were asked to "have an intuition" but a concrete, convincing proof probably is more complicated.    )

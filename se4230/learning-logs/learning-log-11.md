@@ -37,4 +37,7 @@
     Tradeoff: getting a symbol’s bits from the tree takes O(depth) instead of an O(1) lookup, but I save space and the same tree is also what decoding walks down.
 - Hours spent learning: 2
 - Minutes spent documenting: 15
-- Confidence: 4
+- Confidence: 4  
+
+- Question/Problem: Implement the mini-lab practice without @cache, in C#?   
+- what is topological order  

@@ -52,3 +52,12 @@
 - When Identified: 10/13 6pm     
 - Importance: 5  
 - How to learn: Google   )
+
+- Question/Problem: What is the Max Flow Problem?   
+
+
+- Question/Problem: (Question 4 of Chapter 10)  
+
+
+- Question/Problem: Ford-Fulkerson algorithm? what's that anything to do with cuts?  
+- Question/Problem: What are residual graphs?  

@@ -47,3 +47,8 @@
 - When Identified: 10/2 12pm    
 - Importance: 5
 - How to learn: Consult Professor Teichert. It seems complicated enough that we were asked to "have an intuition" but a concrete, convincing proof probably is more complicated.    )
+
+(- Question/Problem: Review minimum spanning tree and (greedy) Prim's algorithm.  
+- When Identified: 10/13 6pm     
+- Importance: 5  
+- How to learn: Google   )

@@ -78,3 +78,25 @@ https://claude.ai/chat/d8b4c0c4-98fc-44f1-ab39-d82d770cf0a5 "How does one constr
     __Check on the example__: two red stations separate `s` from `t`, and there are 2 station-disjoint paths from `s` to `t`, so the flow is 2. ✓  
     __Why ∞ and not 1 on rail edges__: with capacity 1 the min cut could cut a rail edge instead of a station. That would count the wrong thing (and can't be undone by closing a station when the edge touches `s` or `t`).
 )
+
+(
+
+- Question Problem: How to reduce Nonogram to LP? For the "most efficient" part of the solver for Step 5 of final project  
+
+- When identified: 11/16 11am  
+
+- Importance: 5. Building on my understanding of ILP. Even if I generally grasp ILP, I still need to apply it to the context and constraints of the Nonogram game/puzzle  
+
+- How to learn: I wonder if someone's thought this already for SAT. I feel Nonogram and SAT are really similar so I can draw inspo from how someone reduced Nonogram to ILP.  
+)  
+
+(- Question/Problem: Question 4 of Chapter 11 Zombie City. The big huddle is thoroughly understand max flow enough to reduce any problem to it... it's not a direct problem. I HAVE TO "REDUCE IT." And at point of discovery I didn't understand max flow beyond its name and goal 
+
+- When identified: 11/1 6pm 
+
+- Importance: 5. I need to submit this 
+
+- How to learn: Mostly, I googled how to reduce a problem to a max flow problem. This is a hot topic on forums that care about graph theory in general. It said something about needing an edge to cut. 
+
+- Insight/Answer: TBA )
+

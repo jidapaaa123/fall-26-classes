@@ -1,4 +1,7 @@
 import pytest
+import random
+import itertools
+
 from pulp import LpProblem, LpMaximize, value, HiGHS
 from dataclasses import dataclass
 
@@ -59,14 +62,7 @@ def test_verify_sat_single_negative_literal():
     assert verify_sat(formula, {'x': True}) is False
 
 
-# ---------------------------------------------------------------------------
-# Part 2: hard-coded ILP encodings (checkpoint)
-#
-# Gadgets (both variables used below, A ; B, is a 0/1 variable):
-#   NOT:  N = 1 - A
-#   OR:   O >= A,  O >= B,  O <= A + B
-#   AND:  X <= A,  X <= B,  X >= A + B - 1
-# ---------------------------------------------------------------------------
+# Part 2: hard-coded ILP encodings
  
 # Satisfiable: (a or b) and (not a or c) and (not b or not c)
 F_SMALL_SAT = And([
@@ -182,7 +178,105 @@ def test_unsat_formula_really_is_unsat_by_brute_force():
     # Sanity check, no pulp
     assert not verify_sat(F_SMALL_UNSAT, {'x': True})
     assert not verify_sat(F_SMALL_UNSAT, {'x': False})
+
+
+# Part 3: sat(f) via general reduction to ILP
+
+def _not_gate(prob, a, name):
+    """Return a new binary variable constrained to equal NOT a."""
+    n = prob.add_variable(name, cat="Binary")
+    prob += n == 1 - a
+    return n
  
+ 
+def _or_gate(prob, a, b, name):
+    """Return a new binary variable constrained to equal a OR b."""
+    o = prob.add_variable(name, cat="Binary")
+    prob += o >= a
+    prob += o >= b
+    prob += o <= a + b
+    return o
+ 
+ 
+def _and_gate(prob, a, b, name):
+    """Return a new binary variable constrained to equal a AND b."""
+    x = prob.add_variable(name, cat="Binary")
+    prob += x <= a
+    prob += x <= b
+    prob += x >= a + b - 1
+    return x
+ 
+ 
+def _chain(prob, items, gate, prefix, counter):
+    """Fold a non-empty list of ILP variables with a binary gate, left to right."""
+    result = items[0]
+    for item in items[1:]:
+        result = gate(prob, result, item, f"{prefix}{next(counter)}")
+    return result
+ 
+ 
+def sat(formula: And):
+    if not formula.terms:
+        return {}
+ 
+    names = list(dict.fromkeys(
+        lit.var for clause in formula.terms for lit in clause.literals
+    ))
+ 
+    prob = LpProblem("sat_reduction", LpMaximize)
+    counter = itertools.count()  
+ 
+    # Input variables.
+    inputs = {name: prob.add_variable(f"x{i}", cat="Binary")
+              for i, name in enumerate(names)}
+ 
+    negations = {}
+ 
+    def literal_var(lit):
+        if lit.is_true:
+            return inputs[lit.var]
+        if lit.var not in negations:
+            negations[lit.var] = _not_gate(
+                prob, inputs[lit.var], f"not_x{names.index(lit.var)}")
+        return negations[lit.var]
+ 
+    # One output variable per clause.
+    clause_outputs = []
+    for k, clause in enumerate(formula.terms):
+        if not clause.literals:
+            empty = prob.add_variable(f"empty{k}", cat="Binary")
+            prob += empty == 0
+            clause_outputs.append(empty)
+        else:
+            lits = [literal_var(lit) for lit in clause.literals]
+            clause_outputs.append(_chain(prob, lits, _or_gate, "or", counter))
+ 
+    out = _chain(prob, clause_outputs, _and_gate, "and", counter)
+ 
+    prob += out
+    prob += out == 1
+ 
+    stats = prob.solve(HiGHS(msg=False))
+    if stats.status_str != "Optimal":
+        return None
+    return {name: round(value(var)) == 1 for name, var in inputs.items()}
+ 
+ 
+# Part 3 tests
+
+def test_sat_handout_formula():
+    assignment = sat(f)
+    assert assignment is not None
+    assert verify_sat(f, assignment)
+ 
+def test_sat_small_satisfiable():
+    assignment = sat(F_SMALL_SAT)
+    assert assignment is not None
+    assert verify_sat(F_SMALL_SAT, assignment)
+ 
+def test_sat_small_unsatisfiable():
+    assert sat(F_SMALL_UNSAT) is None
 
 if __name__ == "__main__":
-    print ("Running tests...")
+    print ("Run pytest on file")
+    

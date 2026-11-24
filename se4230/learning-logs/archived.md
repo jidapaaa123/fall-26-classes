@@ -100,8 +100,10 @@ https://claude.ai/chat/d8b4c0c4-98fc-44f1-ab39-d82d770cf0a5 "How does one constr
 
 - Insight/Answer: TBA )
 
-- Question/Problem: Pareto Frontier  
-- When identified:  11/16 6pm
+(- Question/Problem: Pareto Frontier  
+- When identified:  11/16 6pm  )
+- Question/Problem: terminology speaking, what's the difference between a lemma and a gadget?  
+- When identified:  11/16 6pm  
 
 - Question/Problem: ILP & Relaxation... ?  
-- When identified: 11/17 6pm
+- When identified: 11/17 6pm  
